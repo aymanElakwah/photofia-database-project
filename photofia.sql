@@ -168,7 +168,10 @@ CREATE TABLE `orders` (
   `customerEmail` varchar(50) NOT NULL,
   `orderCode` int(11) NOT NULL,
   `orderDay` int(11) NOT NULL,
-  `accepted` bit(1) DEFAULT NULL
+  `accepted` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`photographerEmail`,`customerEmail`,`orderCode`,`orderDay`),
+  KEY `orders_ibfk_2` (`customerEmail`),
+  KEY `orders_ibfk_3` (`orderDay`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 14, 2018 at 04:28 PM
+-- Generation Time: Dec 14, 2018 at 05:56 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -195,10 +195,12 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `photographerEmail` varchar(50) NOT NULL,
   `customerEmail` varchar(50) NOT NULL,
-  `requestedTime` datetime NOT NULL,
+  `orderCode` int(11) NOT NULL,
+  `orderDay` int(11) NOT NULL,
   `accepted` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`photographerEmail`,`customerEmail`,`requestedTime`),
-  KEY `customerEmail` (`customerEmail`)
+  PRIMARY KEY (`photographerEmail`,`customerEmail`,`orderCode`,`orderDay`),
+  KEY `orders_ibfk_2` (`customerEmail`),
+  KEY `orders_ibfk_3` (`orderDay`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -448,8 +450,9 @@ ALTER TABLE `lens`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`photographerEmail`) REFERENCES `photographer` (`photographerEmail`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`customerEmail`) REFERENCES `customer` (`customerEmail`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`photographerEmail`) REFERENCES `schedule` (`photographerEmail`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`customerEmail`) REFERENCES `customer` (`customerEmail`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`orderDay`) REFERENCES `schedule` (`day`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `owns`

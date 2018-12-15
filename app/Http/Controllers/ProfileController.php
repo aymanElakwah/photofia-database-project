@@ -50,6 +50,12 @@ class ProfileController extends Controller
         $query = "insert into users(userEmail, username, userPhone, password, userAddress, gender, birthDate, privilege) values(".$email.", ".$name.", ".$phone.", ".$pass.", ".$city.", ".$gender.", ".$birth.", ".$privilege.")";
         try {
             if(DB::insert($query) > 0) {
+                if($privilege == 1) {
+                    $query = "insert into photographer(photographerEmail) values(".$email.")";
+                } else if($privilege == 0) {
+                    $query = "insert into customer(customerEmail) values(".$email.")";
+                }
+                DB::insert($query);
                 return response()->json([
                     'status' => 'signed up successfully'
                 ], 201);
@@ -59,9 +65,9 @@ class ProfileController extends Controller
                 ], 404);
             }
         } catch (QueryException $e) {
-            return response()->json([[
+            return response()->json([
                 'status' => 'Error'
-            ]], 404);
+            ], 404);
         }
         
     }
@@ -76,9 +82,15 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($email)
     {
-        //
+        $query=DB::select('select username As name ,userAddress AS city,userPhone AS phone,qualifications AS skills,userPhone AS rating from photographer,users where userEmail=photographerEmail And userEmail ="'.$email.'"');
+        if(sizeof($query) < 1) {
+            return response()->json([
+                'status' => 'Error'
+            ], 404);
+        }
+        return response()->json($query[0], 201);
     }
 
     /**

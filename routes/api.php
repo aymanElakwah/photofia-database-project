@@ -17,10 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');
 Route::post('/profile', 'ProfileController@store');
+Route::get('/profile/{email}', 'ProfileController@show');
 

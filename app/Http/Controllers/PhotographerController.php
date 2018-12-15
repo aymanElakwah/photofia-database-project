@@ -13,7 +13,10 @@ class PhotographerController extends Controller
         $code = scalar($query);
         if($code) {
             $code = $code->code;
-            $arr = array_fill(0, 24, 0);
+            $code = decbin($code);
+            $code = array_map('intval', str_split($code));
+            $arr = array_fill(0, 24 - count($code), 0);
+            return result(array_merge($arr, $code), 201);
         } else {
             return error();
         }

@@ -19,5 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');
 Route::post('/profile', 'ProfileController@store');
-Route::get('/profile/{email}', 'ProfileController@show');
+Route::get('/photographer/{email}', 'PhotographerController@show');
+Route::get('/photographer/{email}/{day}', 'PhotographerController@getHours');
 

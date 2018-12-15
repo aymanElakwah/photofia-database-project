@@ -46,15 +46,15 @@ class ImagesController extends Controller
      */
     public function show($email, $orderby, $page)
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || intval($page) < 1) {
-            return $this->error();
+        if (!checkEmail($email) || intval($page) < 1) {
+            return error();
         }
         if($orderby == 'time') {
             $orderby = 'date desc';
         } elseif($orderby == 'mostPopular'){
             $orderby = 'rate desc';
         } else {
-            return $this->error();
+            return error();
         }
         $images = DB::select('select username as photographerName, image.* from image join users on photographerEmail = userEmail where photographerEmail="'.$email.'" order by '.$orderby.' limit 15 offset '.(($page - 1)*15));
         return response()->json($images, 201);
@@ -92,11 +92,5 @@ class ImagesController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function error() {
-        return response()->json([
-            'error' => 'Resource not found'
-        ], 404);
     }
 }

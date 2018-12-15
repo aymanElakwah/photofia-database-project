@@ -39,13 +39,13 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $arr = $request->all();
-        $name = $this->st($arr['firstname'] . ' ' . $arr['lastname']);
-        $email = $this->st($arr['email']);
-        $phone = $this->st('0'.intval($arr['phone']));
-        $pass = $this->st($arr['pass']);
+        $name = st($arr['firstname'] . ' ' . $arr['lastname']);
+        $email = st($arr['email']);
+        $phone = st('0'.intval($arr['phone']));
+        $pass = st($arr['pass']);
         $gender = ($arr['gender'] == 'male' ? 0 : 1);
-        $city = $this->st($arr['city']);
-        $birth = $this->st(substr($arr['bd'], 0, 10));
+        $city = st($arr['city']);
+        $birth = st(substr($arr['bd'], 0, 10));
         $privilege = ($arr['customer'] == 'photographer' ? 1 : 0);
         $query = "insert into users(userEmail, username, userPhone, password, userAddress, gender, birthDate, privilege) values(".$email.", ".$name.", ".$phone.", ".$pass.", ".$city.", ".$gender.", ".$birth.", ".$privilege.")";
         try {
@@ -60,20 +60,12 @@ class ProfileController extends Controller
                     'status' => 'signed up successfully'
                 ], 201);
             } else {
-                return response()->json([
-                    'status' => 'Error'
-                ], 404);
+                return error();
             }
         } catch (QueryException $e) {
-            return response()->json([
-                'status' => 'Error'
-            ], 404);
+            return error();
         }
         
-    }
-
-    public function st($s) {
-        return "'".$s."'";
     }
 
     /**
@@ -84,13 +76,6 @@ class ProfileController extends Controller
      */
     public function show($email)
     {
-        $query=DB::select('select username As name ,userAddress AS city,userPhone AS phone,qualifications AS skills,userPhone AS rating from photographer,users where userEmail=photographerEmail And userEmail ="'.$email.'"');
-        if(sizeof($query) < 1) {
-            return response()->json([
-                'status' => 'Error'
-            ], 404);
-        }
-        return response()->json($query[0], 201);
     }
 
     /**

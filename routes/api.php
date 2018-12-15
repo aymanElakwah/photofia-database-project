@@ -27,3 +27,10 @@ Route::post('/updateUser', 'UpdatingController@updateUser');
 
 //-----------------------Create Event---------------------------
 Route::post('/createEvent', 'EventsController@store');
+
+//-----------------------Ayman---------------------------
+Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');
+Route::post('/profile', 'ProfileController@store');
+Route::get('/photographer/{email}', 'PhotographerController@show');
+Route::get('/photographer/{email}/{day}', 'PhotographerController@getHours');
+

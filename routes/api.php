@@ -22,3 +22,5 @@ Route::post('/user', function (Request $request) {
 });
 
 Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');
+Route::post('/profile', 'ProfileController@store');
+

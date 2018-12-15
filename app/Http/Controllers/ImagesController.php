@@ -56,8 +56,8 @@ class ImagesController extends Controller
         } else {
             return $this->error();
         }
-        $images = DB::select('select * from image where photographerEmail="'.$email.'" order by '.$orderby.' limit 15 offset '.(($page - 1)*15));
-         return response()->json($images, 201);
+        $images = DB::select('select username as photographerName, image.* from image join users on photographerEmail = userEmail where photographerEmail="'.$email.'" order by '.$orderby.' limit 15 offset '.(($page - 1)*15));
+        return response()->json($images, 201);
     }
 
     /**

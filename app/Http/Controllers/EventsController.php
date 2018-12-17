@@ -3,47 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
-use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class EventsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    function st($s) {
+        return "'".addslashes($s)."'";
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function createEvent(Request $request)
     {
         $arr = $request->all();
+        $name = $this->st($arr['eventName']);
         $email = $this->st($arr['userEmail']);
         $date = $this->st($arr['date']);
         $desc = $this->st($arr['description']);
         $loc = $this->st($arr['eventLocation']);
-        $id = DB::select("SELECT count(*) FROM events") + 1;
-        $query = DB::raw(   "INSERT INTO events (id, userEmail, date, description, eventLocation)
-                            VALUES ($id, $email, $date, $desc, $loc)"
+        $query = DB::raw(   "INSERT INTO events (eventName, userEmail, date, description, eventLocation)
+                            VALUES ($name, $email, $date, $desc, $loc)"
                         );
         try {
             if(DB::insert($query) > 0) {
@@ -62,48 +40,40 @@ class EventsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function appliableEvents($id)
     {
-        //
+        return DB::select("SELECT ev.id, eventName, description, eventLocation, date
+                            FROM enroll as en RIGHT OUTER JOIN events as ev 
+                            ON en.id = ev.id AND en.photographerEmail = '$id'
+                            WHERE en.photographerEmail IS NULL AND  NOT ev.userEmail = '$id'"
+                            );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    //--------------Omar--------------
+    public function applyEvent($id,$photographer)
+    {   
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $query=DB::select('SELECT userEmail from events Where id='.$id.' AND userEmail="'.$photographer.'"');
+        if(sizeof($query)>0)            // means that photographer made that event so he can't apply for that event
+        {
+            return response()->json([
+                'status' => 'Error'
+            ], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        // checking if he can apply for event or not
+        $query="insert into enroll(id,photographerEmail)values(".$id.", '".$photographer."')";
+        try{
+            if(DB::insert($query) > 0) {
+                return response()->json([
+                    'status' => 'Inserted Successfully'
+                ],201);
+            }
+       }
+       catch(QueryException $e){
+            return response()->json([
+                'status' => 'Error'
+            ], 404);
+       }
     }
 }

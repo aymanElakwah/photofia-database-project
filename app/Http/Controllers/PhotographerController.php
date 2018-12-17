@@ -5,8 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+function st($s) {
+    return "'".addslashes($s)."'";
+}
+function scalar($result) {
+    if(sizeof($result) < 1) {
+        return NULL;
+    }
+    return $result[0];
+}
+function result($result, $status) {
+    return response()->json($result, intval($status));
+}
 class PhotographerController extends Controller
 {
+    
     public function getHours($email, $day)
     {
         $query=DB::select("select code from schedule where day=".intval($day)." and photographerEmail = ".st($email)."");

@@ -3,27 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class NotificationsController extends Controller
 {
+    function toString ($arr){
+        if (count($arr) == 0) return "()"; 
+        $str='(';
+        $str = $str.($arr[0]->id);
+        for ($i = 1; $i < count($arr); $i++){
+            $str = $str.',';
+            $str = $str.($arr[$i]->id);
+        }
+        $str = $str.')';
+        return $str;
+    }
     public function eventsApplications($userEmail){
         $id = DB::select("SELECT id 
                           FROM events 
                           WHERE userEmail = '$userEmail'"
                           );
         //return $id;
-        if (count($id) == 0) return response()->json([
-            'error' => 'Resource not found'
-        ], 404); 
-        $arr='(';
-        $arr = $arr.($id[0]->id);
-        for ($i = 1; $i <= count($id) - 1; $i++){
-            $arr = $arr.',';
-            $arr = $arr.($id[$i]->id);
-        }
-        $arr = $arr.')';
-        $data = DB::select("SELECT userEmail, username 
+        $id = toString($id);
+        $data = DB::select("SELECT userEmail, username, id
                             FROM enroll, users 
                             WHERE photographerEmail = userEmail 
                             AND accepted IS NULL 
@@ -33,7 +35,7 @@ class NotificationsController extends Controller
     }
 
     public function customersReserves($photographerEmail){
-        $data = DB::select("SELECT userEmail, userName 
+        $data = DB::select("SELECT userEmail, username 
                             FROM orders, users 
                             WHERE photographerEmail = '$photographerEmail' 
                             AND customerEmail = userEmail 

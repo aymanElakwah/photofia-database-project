@@ -79,7 +79,7 @@ CREATE TABLE `device` (
 CREATE TABLE `enroll` (
   `id` int(11) NOT NULL,
   `photographerEmail` varchar(50) NOT NULL,
-  `accepted` bit(1) DEFAULT NULL
+  `accepted` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

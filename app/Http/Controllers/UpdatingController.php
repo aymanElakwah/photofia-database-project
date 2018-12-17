@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class UpdatingController extends Controller
 {
-    public function st($s) {
-        return "'".$s."'";
+    function st($s) {
+        return "'".addslashes($s)."'";
     }
-
     public function updateUser(Request $request){
         $arr = $request->all();
         $email = $this->st($arr['userEmail']);
@@ -41,5 +40,18 @@ class UpdatingController extends Controller
                             WHERE photographerEmail = $email"
                         );
         }
+    }
+    public function updateEventNotification(Request $request){
+        $arr = $request->all();
+        $id = $this->st($arr['id']);
+        $photographerEmail = $this->st($arr['photographerEmail']);
+        $accepted = $this->st($arr['accepted']);
+        DB::update("   UPDATE enroll
+                        SET accepted = $accepted
+                        WHERE id = $id AND photographerEmail = $photographerEmail"
+                    );
+                    return response()->json([
+                        'status' => 'event enrolled successfully'
+                    ], 201);
     }
 }

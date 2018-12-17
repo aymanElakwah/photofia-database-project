@@ -15,6 +15,12 @@ function error() {
     ], 404);
 }
 
+function errorMessage($message) {
+    return response()->json([
+        'error' => $message
+    ], 201);
+}
+
 function result($result, $status) {
     return response()->json($result, intval($status));
 }
@@ -37,5 +43,10 @@ function insert($query) {
     } catch (QueryException $e) {
         return -1;
     }
+}
+
+function getDayFromDate($date) {
+    $date = new DateTime($date);
+    return date_format($date, "z");
 }
 ?>

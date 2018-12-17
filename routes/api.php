@@ -24,6 +24,6 @@ Route::get('/images/review/{email}/{path}', 'ImagesController@getReview');
 Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show');
 Route::post('/profile', 'ProfileController@storeAndroid');
 Route::get('/photographer/{email}', 'PhotographerController@show');
-Route::get('/photographer/{email}/{day}', 'PhotographerController@getHours');
-Route::post('/photographer/{email}/{day}/', 'PhotographerController@order');
+Route::get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate');
+Route::post('/photographer/{email}/{date}/', 'PhotographerController@order');
 

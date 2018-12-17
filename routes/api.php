@@ -25,5 +25,5 @@ Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesCo
 Route::post('/profile', 'ProfileController@storeAndroid');
 Route::get('/photographer/{email}', 'PhotographerController@show');
 Route::get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate');
-Route::post('/photographer/{email}/{date}/', 'PhotographerController@order');
+Route::post('/photographer/{photographerEmail}/{customerEmail}/{date}/', 'PhotographerController@order');
 

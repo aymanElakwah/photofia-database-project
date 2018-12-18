@@ -12,30 +12,30 @@ class EventsController extends Controller
         return "'".addslashes($s)."'";
     }
 
-    public function createEvent(Request $request)
+    public function createEvent($email, Request $request)
     {
+        return $request;
         $arr = $request->all();
         $name = $this->st($arr['eventName']);
-        $email = $this->st($arr['userEmail']);
         $date = $this->st($arr['date']);
         $desc = $this->st($arr['description']);
         $loc = $this->st($arr['eventLocation']);
-        $query = DB::raw(   "INSERT INTO events (eventName, userEmail, date, description, eventLocation)
-                            VALUES ($name, $email, $date, $desc, $loc)"
-                        );
+        $email = $this->st($email);
+        $query = "INSERT INTO `events` (`eventName`, `userEmail`, `date`, `description`, `eventLocation`)
+                            VALUES ($name, $email, $date, $desc, $loc)";
         try {
-            if(DB::insert($query) > 0) {
+            if(DB::insert($query) == 1) {
                 return response()->json([
                     'status' => 'event created successfully'
                 ], 201);
             } else {
                 return response()->json([
-                    'status' => 'Error'
+                    'status' => 'Error1'
                 ], 404);
             }
         } catch (QueryException $e) {
             return response()->json([[
-                'status' => 'Error'
+                'status' => 'Error2'
             ]], 404);
         }
     }

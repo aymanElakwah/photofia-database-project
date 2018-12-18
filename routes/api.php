@@ -27,9 +27,15 @@ Route::post('/updateUser', 'UpdatingController@updateUser');
 Route::post('/updateEventNotification', 'UpdatingController@updateEventNotification');
 
 //-----------------------Event---------------------------
-Route::post('/createEvent', 'EventsController@createEvent');
+Route::post('/createEvent/{userEmail}', 'EventsController@createEvent');
 Route::get('/appliableEvents/{photographerEmail}', 'EventsController@appliableEvents');
 Route::get('/applyEvent/{id}/{photographerEmail}', 'EventsController@applyEvent');      //omar
+
+//-----------------------Devices---------------------------
+Route::get('/getAllCameras/', 'DevicesController@getAllCameras');
+Route::get('/getPhotographerCameras/{photographerEmail}', 'DevicesController@getPhotographerCameras');
+Route::get('/getAllLenses/', 'DevicesController@getAllLenses');
+Route::get('/getPhotographerLenses/{photographerEmail}', 'DevicesController@getPhotographerLenses');
 
 //-----------------------Ayman---------------------------
 Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');

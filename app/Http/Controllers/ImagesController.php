@@ -79,7 +79,7 @@ class ImagesController extends Controller
     public function followedImages($userEmail, $orderby, $page) {
         $page = intval($page) - 1;
         if (!checkEmail($userEmail) || $page < 0) {
-            return error();
+            return serverResponse("Check user email", false);
         }
         $userEmail = st($userEmail);
         if($orderby == 'time') {
@@ -94,7 +94,7 @@ class ImagesController extends Controller
         left outer join reviewimage as review on image.path = review.path and review.userEmail = ".$userEmail."
         where
         photographerEmail in (select photographerEmail from follow where userEmail = ".$userEmail.")
-        order by ".$orderby." limit 15 offset ".($page*15);
+        order by ".$orderby." limit 30 offset ".($page*30);
         $images = DB::select($query);
         return response()->json($images, 201);
     }

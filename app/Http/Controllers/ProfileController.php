@@ -39,7 +39,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $arr = $request->all();
-        $name = st($arr['name']);
+        $name = st($arr['firstname']);
         $email = st($arr['email']);
         $phone = st('0'.intval($arr['phone']));
         $pass = st($arr['pass']);

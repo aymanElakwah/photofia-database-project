@@ -32,17 +32,18 @@ Route::get('/appliableEvents/{photographerEmail}', 'EventsController@appliableEv
 Route::get('/applyEvent/{id}/{photographerEmail}', 'EventsController@applyEvent');      //omar
 
 //-----------------------Ayman---------------------------
-Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');
-Route::post('/profile', 'ProfileController@store');
-Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages');
+Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages'); //done
 Route::post('/images/review/{email}/{path}', 'ImagesController@review');
 Route::put('/images/review/{email}/{path}', 'ImagesController@updateReview');
 Route::get('/images/review/{email}/{path}', 'ImagesController@getReview');
-Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show');
-Route::post('/profile', 'ProfileController@storeAndroid');
+Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show'); //done
+Route::post('/profile', 'ProfileController@store');
+//Route::post('/profile', 'ProfileController@storeAndroid');
 Route::get('/photographer/{email}', 'PhotographerController@show');
 Route::get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate');
 Route::post('/photographer/{photographerEmail}/{customerEmail}/{date}/', 'PhotographerController@order');
+Route::get('/photographer/{email}', 'PhotographerController@show');
+
 
 
 

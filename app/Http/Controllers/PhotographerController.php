@@ -88,7 +88,6 @@ class PhotographerController extends Controller
             return serverResponse("Sorry, photographer is busy!", false);
         } else {
             $query = "update actualSchedule set code=".($orderCode | $code)." where photographerEmail=".$photographerEmail." and date = ".$date."";
-            echo $query;
             if(DB::update($query) > 0) {
                 if(insert("insert into orders(photographerEmail, customerEmail, date, orderCode) values (".$photographerEmail.", ".$customerEmail.", ".$date.", $code)") <= 0) {
                     return serverResponse("Something went wrong! This shouldn't happen", false);
@@ -112,5 +111,58 @@ class PhotographerController extends Controller
         } else {
             return error();
         }
+    }
+
+    // User reviews photographer
+    public function review($photographerEmail, $customerEmail, Request $request) {
+        if(!checkEmail($customerEmail) && !checkEmail($photographerEmail)) {
+            return error();
+        }
+        $customerEmail = st($customerEmail);
+        $photographerEmail = st($photographerEmail);
+        $rate = intval($request->rate);
+        $comment = st($request->comment);
+        $query = "insert into reviewphotographer(photographerEmail, customerEmail, comment, rate) values(".$photographerEmail.", ".$customerEmail.", ".$comment.", ".$rate.")";
+        if(insert($query) > 0) {
+            return serverResponse("Rated successfully", true);
+        }
+        return serverResponse("Something went wrong", false);
+    }
+    // User update photographer's review
+    public function updateReview($photographerEmail, $customerEmail, Request $request) {
+        if(!checkEmail($customerEmail) && !checkEmail($photographerEmail)) {
+            return error();
+        }
+        $customerEmail = st($customerEmail);
+        $photographerEmail = st($photographerEmail);
+        $rate = intval($request->rate);
+        $comment = st($request->comment);
+        $query = "update reviewphotographer set rate=".$rate.", comment=".$comment." where  photographerEmail=".$photographerEmail." and customerEmail=".$customerEmail; 
+        if(DB::update($query) > 0) {
+            return serverResponse("Rated successfully", true);
+        }
+        return serverResponse("Something went wrong", false);
+    }
+
+    public function getReview($photographerEmail, $customerEmail) {
+        if(!checkEmail($customerEmail) && !checkEmail($photographerEmail)) {
+            return error();
+        }
+        $customerEmail = st($customerEmail);
+        $photographerEmail = st($photographerEmail);
+        $query = "select comment, rate from reviewphotographer where photographerEmail=".$photographerEmail." and customerEmail=".$customerEmail."";
+        $result = scalar($query);
+        return result($result, 201);
+    }
+
+    public function getAllReviews($photographerEmail) {
+        if(!checkEmail($photographerEmail)) {
+            return error();
+        }
+        $photographerEmail = st($photographerEmail);
+        $query = "select username, reviewphotographer.* from
+        reviewphotographer join users on userEmail = customerEmail
+        where photographerEmail=".$photographerEmail;
+        return result(DB::select($query), 201);
     }
 }

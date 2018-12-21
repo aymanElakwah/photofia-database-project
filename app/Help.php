@@ -25,8 +25,8 @@ function result($result, $status) {
     return response()->json($result, intval($status));
 }
 
-function serverResponse($message, $status) {
-    return response()->json(["message" => $message, "status" => $status], 201);
+function serverResponse($message, $status, $code = 201) {
+    return response()->json(["message" => $message, "status" => $status], $code);
 }
 
 function scalar($query) {
@@ -48,5 +48,22 @@ function insert($query) {
 function getDayFromDate($date) {
     $date = new DateTime($date);
     return date_format($date, "z");
+}
+function getWeekDay($date) {
+    $date = new DateTime($date);
+    return (date_format($date, "w") + 1)%7;
+
+}
+
+function uploadFile(Request $request, $filename) {
+    $file = $request->file('image');
+    $filename = $filename.".jpg";
+    if ($file) {
+        Storage::disk('local')->put($filename, File::get($file));
+    }
+}
+
+function getTime() {
+    return round(microtime(true) * 1000);
 }
 ?>

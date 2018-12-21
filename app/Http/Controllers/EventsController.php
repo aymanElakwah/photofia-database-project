@@ -14,7 +14,6 @@ class EventsController extends Controller
 
     public function createEvent($email, Request $request)
     {
-        return $request;
         $arr = $request->all();
         $name = $this->st($arr['eventName']);
         $date = $this->st($arr['date']);

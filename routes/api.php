@@ -18,24 +18,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //-----------------------Notifications---------------------------
-Route::get('/eventsApplications/{userEmail}', 'NotificationsController@eventsApplications');
-Route::get('/customersReserves/{photographerEmail}', 'NotificationsController@customersReserves');
-Route::get('/customersFollows/{userEmail}/{photographerEmail}', 'NotificationsController@customersFollows');
+Route::get('/eventsApplications/{userEmail}', 'NotificationsController@eventsApplications');//**DONE**
+Route::get('/customersReserves/{photographerEmail}', 'NotificationsController@customersReserves');//**DONE**
+Route::get('/customersFollows/{photographerEmail}', 'NotificationsController@customersFollows');
 
 //-----------------------Update User---------------------------
-Route::post('/updateUser', 'UpdatingController@updateUser');
-Route::post('/updateEventNotification', 'UpdatingController@updateEventNotification');
+Route::post('/updateUser', 'UpdatingController@updateUser');//**DONE**
+Route::post('/updateEventNotification', 'UpdatingController@updateEventNotification');//**DONE**
 
-//-----------------------Event---------------------------
+//-----------------------Event--------------------------- ***********DONE**************
 Route::post('/createEvent/{userEmail}', 'EventsController@createEvent');
 Route::get('/appliableEvents/{photographerEmail}', 'EventsController@appliableEvents');
 Route::get('/applyEvent/{id}/{photographerEmail}', 'EventsController@applyEvent');      //omar
 
 //-----------------------Devices---------------------------
 Route::get('/getAllCameras/', 'DevicesController@getAllCameras');
-Route::get('/getPhotographerCameras/{photographerEmail}', 'DevicesController@getPhotographerCameras');
+Route::get('/getPhotographerCameras/{photographerEmail}', 'DevicesController@getPhotographerCameras');//**DONE**
 Route::get('/getAllLenses/', 'DevicesController@getAllLenses');
-Route::get('/getPhotographerLenses/{photographerEmail}', 'DevicesController@getPhotographerLenses');
+Route::get('/getPhotographerLenses/{photographerEmail}', 'DevicesController@getPhotographerLenses');//**DONE**
 
 //-----------------------Ayman---------------------------
 Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');
@@ -48,15 +48,35 @@ Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesCo
 Route::post('/profile', 'ProfileController@storeAndroid');
 Route::get('/photographer/{email}', 'PhotographerController@show');
 Route::get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate');
-Route::post('/photographer/{email}/{date}/', 'PhotographerController@order');
+Route::post('/photographer/{photographerEmail}/{customerEmail}/{date}/', 'PhotographerController@order');
 
 
 
-//------------------Omar-------------------
-
+//------------------Omar-------------------***********DONE**************
 Route::get('/user/{photographer}/{user}','user@isFollow');
 Route::get('/customer/{id}','customer@getcustomer');
 Route::get('/user/{id}','user@getprevil');
 Route::get('/follow/{photographer}/{user}','user@follow');
 Route::get('/unfollow/{photographer}/{user}','user@unfollow');
-Route::get('/getplaces/', 'PlacesController@getPlaces');
+Route::get('/getplaces/', 'PlacesController@getPlaces')->middleware('checkLogging');
+
+
+//----------------------GIFT-----------------***********DONE**************
+Route::get('/getCustomerPoints/{email}', 'giftController@getCustomerPoints');
+Route::get('/getAllGifts/','giftController@getAllGifts');
+Route::post('/insertGift/','giftController@insertGift');    //except this
+Route::post('/redeemGift/{email}','giftController@redeemGift');
+
+//----------------------Statistics-----------------
+Route::get('/statistics/eventsPlaces', 'StatisticsController@eventsPlaces');
+Route::get('/statistics/imagesPlaces', 'StatisticsController@imagesPlaces');
+Route::get('/statistics/photographersFollowers', 'StatisticsController@photographersFollowers');
+Route::get('/statistics/photographersReservations', 'StatisticsController@photographersReservations');
+Route::get('/statistics/eventsCreations', 'StatisticsController@eventsCreations');
+Route::get('/statistics/points', 'StatisticsController@points');
+
+
+
+
+
+Route::get('/getCustomerPoints/{email}','customer@getCustomerPoints');

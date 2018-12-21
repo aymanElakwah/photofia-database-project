@@ -23,13 +23,12 @@ class NotificationsController extends Controller
                           FROM events 
                           WHERE userEmail = '$userEmail'"
                           );
-        //return $id;
-        $id = toString($id);
+        $id = $this->toString($id);
         $data = DB::select("SELECT userEmail, username, id
                             FROM enroll, users 
                             WHERE photographerEmail = userEmail 
                             AND accepted IS NULL 
-                            AND id IN $arr"
+                            AND id IN $id"
                             );
         return response()->json($data, 201);
     }
@@ -44,11 +43,10 @@ class NotificationsController extends Controller
         return response()->json($data, 201);
     }
 
-    public function customersFollows($userEmail, $photographerEmail){
+    public function customersFollows($photographerEmail){
         $data = DB::select("SELECT userEmail, userName 
-                            FROM follow, users 
-                            WHERE photographerEmail = '$photographerEmail' 
-                            AND userEmail = $userEmail");
+                            FROM follow NATURAL JOIN users 
+                            WHERE photographerEmail = '$photographerEmail'");
         return response()->json($data, 201);
     }
 }

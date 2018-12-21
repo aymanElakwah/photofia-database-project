@@ -13,24 +13,19 @@ class UpdatingController extends Controller
     public function updateUser(Request $request){
         $arr = $request->all();
         $email = $this->st($arr['userEmail']);
+        $pass = $this->st($arr['password']);
         $name = $this->st($arr['username']);
-        $phone = $this->st('0'.intval($arr['phone']));
+        $phone = $this->st('0'.intval($arr['userPhone']));
         $address = $this->st($arr['userAddress']);
         $gender = $this->st($arr['gender']);
-        $privilege = $this->st($arr['privilege']);
+        $gender = intval($gender) ? 1 : 0;
+        $privilege = DB::select("select privilege from users Where userEmail=$email");
         DB::update("   UPDATE users
-                        SET username = $username, userPhone = $phone,
+                        SET username = $name, password = $pass, userPhone = $phone,
                         userAddress = $address, gender = $gender
                         WHERE userEmail = $email"
                     );
-        if ($privilege == 0){   //customer
-            $points = $this->st($arr['points']);
-            DB::update("   UPDATE customer
-                            SET points = $points
-                            WHERE customerEmail = $email"
-                        );
-        }
-        else{                   //photographer
+        if (intval($privilege) == 1){                   //photographer
             $bio = $this->st($arr['bio']);
             $price = $this->st($arr['avgPrice']);
             $qualifications = $this->st($arr['qualifications']);
@@ -40,7 +35,11 @@ class UpdatingController extends Controller
                             WHERE photographerEmail = $email"
                         );
         }
+        return response()->json([
+            'Updated Successfully'
+        ],201);
     }
+    
     public function updateEventNotification(Request $request){
         $arr = $request->all();
         $id = $this->st($arr['id']);

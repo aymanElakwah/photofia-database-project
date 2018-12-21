@@ -39,6 +39,13 @@ class customer extends Controller
             return error();
         }
     }
+    public function getCustomerPoints($email)
+    {
+         $query= DB::select("SELECT points FROM customer Where customerEmail='$email'");
+         if(sizeof($query)==0)
+            return "error";
+         return $query[0]->points;
+    }
 
     public function index()
     {

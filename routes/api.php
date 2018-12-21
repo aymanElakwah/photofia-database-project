@@ -18,36 +18,37 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //-----------------------Notifications---------------------------
-Route::middleware('cors')->get('/eventsApplications/{userEmail}', 'NotificationsController@eventsApplications');
-Route::middleware('cors')->get('/customersReserves/{photographerEmail}', 'NotificationsController@customersReserves');
-Route::middleware('cors')->get('/customersFollows/{userEmail}/{photographerEmail}', 'NotificationsController@customersFollows');
+Route::get('/eventsApplications/{userEmail}', 'NotificationsController@eventsApplications');
+Route::get('/customersReserves/{photographerEmail}', 'NotificationsController@customersReserves');
+Route::get('/customersFollows/{userEmail}/{photographerEmail}', 'NotificationsController@customersFollows');
 
 //-----------------------Update User---------------------------
-Route::middleware('cors')->post('/updateUser', 'UpdatingController@updateUser');
-Route::middleware('cors')->post('/updateEventNotification', 'UpdatingController@updateEventNotification');
+Route::post('/updateUser', 'UpdatingController@updateUser');
+Route::post('/updateEventNotification', 'UpdatingController@updateEventNotification');
 
 //-----------------------Event---------------------------
-Route::middleware('cors')->post('/createEvent', 'EventsController@createEvent');
-Route::middleware('cors')->get('/appliableEvents/{photographerEmail}', 'EventsController@appliableEvents');
-Route::middleware('cors')->get('/applyEvent/{id}/{photographerEmail}', 'EventsController@applyEvent');      //omar
+Route::post('/createEvent', 'EventsController@createEvent');
+Route::get('/appliableEvents/{photographerEmail}', 'EventsController@appliableEvents');
+Route::get('/applyEvent/{id}/{photographerEmail}', 'EventsController@applyEvent');      //omar
 
 //-----------------------Ayman---------------------------
-Route::middleware('cors')->get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages'); //done
-Route::middleware('cors')->post('/images/review/{email}/{path}', 'ImagesController@review');
-Route::middleware('cors')->put('/images/review/{email}/{path}', 'ImagesController@updateReview');
-Route::middleware('cors')->get('/images/review/{email}/{path}', 'ImagesController@getReview');
-Route::middleware('cors')->get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show'); //done
-Route::middleware('cors')->post('/profile', 'ProfileController@store'); // done
+Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages'); //done
+Route::post('/images/review/{email}/{path}', 'ImagesController@review');
+Route::put('/images/review/{email}/{path}', 'ImagesController@updateReview');
+Route::get('/images/review/{email}/{path}', 'ImagesController@getReview');
+Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show'); //done
+Route::post('/profile', 'ProfileController@store'); // done
 //Route::post('/profile', 'ProfileController@storeAndroid');
-Route::middleware('cors')->get('/photographer/reviews/{photographerEmail}', 'PhotographerController@getAllReviews');
-Route::middleware('cors')->get('/photographer/review/{photographerEmail}/{userEmail}', 'PhotographerController@getReview'); // done
-Route::middleware('cors')->post('/photographer/reviewPost/{photographerEmail}/{userEmail}', 'PhotographerController@review');
-Route::middleware('cors')->post('/photographer/updateReview/{photographerEmail}/{userEmail}', 'PhotographerController@updateReview');
-Route::middleware('cors')->get('/photographer/{email}', 'PhotographerController@show'); // done
-Route::middleware('cors')->get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate');
-Route::middleware('cors')->post('/photographer/{photographerEmail}/{customerEmail}/{date}/', 'PhotographerController@order');
+Route::post('/profile/profilePicture/{photographerEmail}', 'ProfileController@changeProfilePicture');
+Route::get('/photographer/reviews/{photographerEmail}', 'PhotographerController@getAllReviews');
+Route::get('/photographer/review/{photographerEmail}/{userEmail}', 'PhotographerController@getReview'); // done
+Route::post('/photographer/reviewPost/{photographerEmail}/{userEmail}', 'PhotographerController@review');
+Route::post('/photographer/updateReview/{photographerEmail}/{userEmail}', 'PhotographerController@updateReview');
+Route::get('/photographer/{email}', 'PhotographerController@show'); // done
+Route::get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate'); // done
+Route::post('/photographer/{photographerEmail}/{customerEmail}/{date}/', 'PhotographerController@order'); // done
 //Route::middleware('isLoggedIn')->
-Route::middleware('cors')->get('/photographer/{email}', 'PhotographerController@show');
+Route::get('/photographer/{email}', 'PhotographerController@show');
 
 
 

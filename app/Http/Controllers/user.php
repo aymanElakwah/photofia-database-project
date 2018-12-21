@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+
 class user extends Controller
 {
     /**
@@ -14,7 +15,8 @@ class user extends Controller
      */
     public function getprevil($id)
     {
-        $query=DB::select("select privilege from users Where userEmail='".$id."'");
+        $id = st($id);
+        $query=DB::select("select privilege from users Where userEmail=".$id."");
         if(sizeof($query)<1)
         {
             return response()->json([
@@ -26,7 +28,9 @@ class user extends Controller
 
     public function isFollow($photographer,$user)
     {
-        $query=DB::select("select userEmail from follow Where photographerEmail='".$photographer."'AND userEmail='".$user."'");
+        $photographer = st($photographer);
+        $user = st($user);
+        $query=DB::select("select userEmail from follow Where photographerEmail=".$photographer." AND userEmail=".$user);
         if(sizeof($query)<1)
         {
             return 0;

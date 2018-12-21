@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class CheckAuth
+class CheckAuthentication
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,7 @@ class CheckAuth
      */
     public function handle($request, Closure $next)
     {
-        if($request->header('age') < 10) {
-            return redirect('/');
-        }
+        //return redirect('/');
         return $next($request);
     }
 }

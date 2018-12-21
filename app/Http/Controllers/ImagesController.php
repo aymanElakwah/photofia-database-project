@@ -98,4 +98,10 @@ class ImagesController extends Controller
         $images = DB::select($query);
         return response()->json($images, 201);
     }
+    // get all images in a certain location
+    public function getAllIamges($location)
+    {
+        return DB::select("SELECT * FROM image  WHERE imageLocation='$location'");
+    }
+    
 }

@@ -53,4 +53,6 @@ class UpdatingController extends Controller
                         'status' => 'event enrolled successfully'
                     ], 201);
     }
+
+    
 }

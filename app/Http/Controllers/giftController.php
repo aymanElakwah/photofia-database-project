@@ -27,10 +27,18 @@ class giftController extends Controller
     $expirationDate=$this->st($arr['expirationDate']);
     $points=$this->st($arr['points']);
 
-    DB::insert("Insert into gift (giftName,expirationDate,points) Values($giftName,$expirationDate,$points)");
-    return response()->json([
-      'status' => 'Gift insert successfully'
-  ], 201);
+    $query="Insert into gift (giftName,expirationDate,points) Values($giftName,$expirationDate,$points)";
+    try{
+      if(DB::insert($query)==1)
+      return response()->json([
+          'status' => 'Inserted succesfully'
+      ], 201);
+  }
+  catch(QueryException $e){
+      return response()->json([
+      'status' => 'Error'
+      ], 404);
+  }
   }
 
 
@@ -53,4 +61,29 @@ class giftController extends Controller
     }
     return response()->json('No enough points', 201);
   }
+
+  public function deleteGift($giftName)
+    {
+        $query= "DELETE FROM gift WHERE giftName='$giftName'";
+         try{
+            if(DB::delete($query)==1)
+            {
+                return response()->json([
+                    'status' => 'Deleted succesfully'
+                ], 201);
+            }
+            else
+            {
+                return response()->json([
+                    'status' => 'Error'
+                    ], 404);
+            }
+        }
+        catch(QueryException $e){
+            return response()->json([
+            'status' => 'Error'
+            ], 404);
+        }
+    }
+
 }

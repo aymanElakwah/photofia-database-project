@@ -15,7 +15,8 @@ class user extends Controller
      */
     public function getprevil($id)
     {
-        $query=DB::select("select privilege from users Where userEmail='".$id."'");
+        $id = st($id);
+        $query=DB::select("select privilege from users Where userEmail=".$id."");
         if(sizeof($query)<1)
         {
             return response()->json([
@@ -27,7 +28,9 @@ class user extends Controller
 
     public function isFollow($photographer,$user)
     {
-        $query=DB::select("select userEmail from follow Where photographerEmail='".$photographer."'AND userEmail='".$user."'");
+        $photographer = st($photographer);
+        $user = st($user);
+        $query=DB::select("select userEmail from follow Where photographerEmail=".$photographer." AND userEmail=".$user);
         if(sizeof($query)<1)
         {
             return 0;
@@ -37,36 +40,46 @@ class user extends Controller
     
     public function follow($photographer,$user)
     {
-
-       $query="insert into follow(photographerEmail,userEmail)values('".$photographer."', '".$user."')";
-       try{
-            if(DB::insert($query) > 0) {
+        $photographer = st($photographer);
+        $user = st($user);
+        $query="insert into follow(photographerEmail,userEmail)values(".$photographer.", ".$user.")";
+        try{
+                if(DB::insert($query) > 0) {
+                    return response()->json([
+                        'status' => 'Inserted Successfully'
+                    ],201);
+                }
+        }
+        catch(QueryException $e){
                 return response()->json([
-                    'status' => 'Inserted Successfully'
-                ],201);
-            }
-       }
-       catch(QueryException $e){
-            return response()->json([
-                'status' => 'Error'
-            ], 404);
-       }
+                    'status' => 'Error'
+                ], 404);
+        }
     }
     public function unfollow($photographer,$user)
     {
-       $query='DELETE  FROM follow WHERE photographerEmail="'.$photographer.'" AND userEmail="'.$user.'"';
-       try{
-        if(DB::delete($query) > 0) {
-            return response()->json([
-                'status' => 'Deleted Successfully'
-            ],201);
+        $photographer = st($photographer);
+        $user = st($user);
+        $query='DELETE  FROM follow WHERE photographerEmail='.$photographer.' AND userEmail='.$user;
+        try{
+            if(DB::delete($query) > 0) {
+                return response()->json([
+                    'status' => 'Deleted Successfully'
+                ],201);
+            }
+            else
+            {
+                return response()->json([
+                    'status' => 'Error'
+                ],404);
+            }
         }
-        else
-        {
-            return response()->json([
-                'status' => 'Error'
-            ],404);
+        catch(QueryException $e){
+                return response()->json([
+                    'status' => 'Error'
+                ], 404);
         }
+<<<<<<< HEAD
    }
    catch(QueryException $e){
         return response()->json([
@@ -76,4 +89,7 @@ class user extends Controller
     }
 
     
+=======
+    }
+>>>>>>> 7fee2e4b13e5850f23d0ed217f8adfde1b110661
 }

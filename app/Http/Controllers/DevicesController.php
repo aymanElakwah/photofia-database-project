@@ -12,9 +12,10 @@ class DevicesController extends Controller
     }
 
     public function getPhotographerCameras($email){
+        $email = st($email);
         return DB::select("SELECT cameraName, sensorSize, brand, resolution, videoCaptureResolution, opticalZoom
                             FROM owns JOIN camera ON deviceName = cameraName
-                            WHERE photographerEmail = '$email'");
+                            WHERE photographerEmail = ".$email);
     }
 
     public function getAllLenses(){
@@ -22,8 +23,9 @@ class DevicesController extends Controller
     }
 
     public function getPhotographerLenses($email){
+        $email = st($email);
         return DB::select("SELECT lensName, lensType, focusType, minFocalRange, maxFocalRange, maxApretureRange
                             FROM owns JOIN lens ON deviceName = lensName
-                            WHERE photographerEmail = '$email'");
+                            WHERE photographerEmail =".$email);
     }
 }

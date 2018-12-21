@@ -5,19 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-function st($s) {
-    return "'".addslashes($s)."'";
-}
-function scalar($result) {
-    if(sizeof($result) < 1) {
-        return NULL;
-    }
-    return $result[0];
-}
-function result($result, $status) {
-    return response()->json($result, intval($status));
-}
-
 class customer extends Controller
 {
     /**
@@ -28,10 +15,10 @@ class customer extends Controller
 
     public function getcustomer($email)
     {
-        $query=DB::select("select points,birthDate,gender,profilePicture,username,userPhone,userAddress 
+        $query="select points,birthDate,gender,profilePicture,username,userPhone,userAddress 
         from users,customer
          Where userEmail=customerEmail
-          AND customerEmail=".st($email)."");
+          AND customerEmail=".st($email);
         $result = scalar($query);
         if($result) {
             return result($result, 201);

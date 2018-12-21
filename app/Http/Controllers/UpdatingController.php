@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class UpdatingController extends Controller
 {
-    function st($s) {
-        return "'".addslashes($s)."'";
-    }
     public function updateUser(Request $request){
         $arr = $request->all();
         $email = $this->st($arr['userEmail']);

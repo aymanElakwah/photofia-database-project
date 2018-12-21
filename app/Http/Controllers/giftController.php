@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class giftController extends Controller
 {
-  function st($s) {
-        return "'".addslashes($s)."'";
-  }
+  
   public function getAllGifts()
   {
       $query="SELECT * from gift";

@@ -38,17 +38,30 @@ Route::get('/getAllLenses/', 'DevicesController@getAllLenses');
 Route::get('/getPhotographerLenses/{photographerEmail}', 'DevicesController@getPhotographerLenses');//**DONE**
 
 //-----------------------Ayman---------------------------
-Route::get('/images/{email}/{orderby}/{page}', 'ImagesController@show');
-Route::post('/profile', 'ProfileController@store');
-Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages');
+// Review place
+Route::post('/place/review/{userEmail}/{placeName}/', 'PlacesController@review');
+Route::put('/place/review/{userEmail}/{placeName}', 'PlacesController@updateReview');
+Route::get('/place/review/{userEmail}/{placeName}', 'PlacesController@getReview');
+
+Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages'); //done
+// Review image
 Route::post('/images/review/{email}/{path}', 'ImagesController@review');
 Route::put('/images/review/{email}/{path}', 'ImagesController@updateReview');
 Route::get('/images/review/{email}/{path}', 'ImagesController@getReview');
-Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show');
-Route::post('/profile', 'ProfileController@storeAndroid');
+Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show'); //done
+Route::post('/profile', 'ProfileController@store'); // done
+//Route::post('/profile', 'ProfileController@storeAndroid');
+Route::post('/profile/profilePicture/{photographerEmail}', 'ProfileController@changeProfilePicture');
+Route::get('/photographer/reviews/{photographerEmail}', 'PhotographerController@getAllReviews');
+Route::get('/photographer/review/{photographerEmail}/{userEmail}', 'PhotographerController@getReview'); // done
+Route::post('/photographer/reviewPost/{photographerEmail}/{userEmail}', 'PhotographerController@review');
+Route::post('/photographer/updateReview/{photographerEmail}/{userEmail}', 'PhotographerController@updateReview');
+Route::get('/photographer/{email}', 'PhotographerController@show'); // done
+Route::get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate'); // done
+Route::post('/photographer/{photographerEmail}/{customerEmail}/{date}/', 'PhotographerController@order'); // done
+//Route::middleware('isLoggedIn')->
 Route::get('/photographer/{email}', 'PhotographerController@show');
-Route::get('/photographer/{email}/{date}', 'PhotographerController@getHoursByDate');
-Route::post('/photographer/{photographerEmail}/{customerEmail}/{date}/', 'PhotographerController@order');
+
 
 
 

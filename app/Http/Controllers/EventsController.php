@@ -8,10 +8,6 @@ use Illuminate\Database\QueryException;
 
 class EventsController extends Controller
 {
-    function st($s) {
-        return "'".addslashes($s)."'";
-    }
-
     public function createEvent($email, Request $request)
     {
         $arr = $request->all();

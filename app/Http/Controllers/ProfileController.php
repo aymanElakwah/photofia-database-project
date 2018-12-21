@@ -13,15 +13,18 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $arr = $request->all();
+        $email = $arr['email'];
+        $pass = $arr['pass'];
+        $token = md5($email.$pass);
         $name = st($arr['firstname']);
-        $email = st($arr['email']);
+        $email = st($email);
         $phone = st('0'.intval($arr['phone']));
-        $pass = st($arr['pass']);
+        $pass = st($pass);
         $gender = ($arr['gender'] == 'male' ? 0 : 1);
         $city = st($arr['city']);
         $birth = st(substr($arr['bd'], 0, 10));
         $privilege = ($arr['customer'] == 'photographer' ? 1 : 0);
-        $query = "insert into users(userEmail, username, userPhone, password, userAddress, gender, birthDate, privilege) values(".$email.", ".$name.", ".$phone.", ".$pass.", ".$city.", ".$gender.", ".$birth.", ".$privilege.")";
+        $query = "insert into users(userEmail, username, userPhone, password, userAddress, gender, birthDate, privilege, token) values(".$email.", ".$name.", ".$phone.", ".$pass.", ".$city.", ".$gender.", ".$birth.", ".$privilege.", '".$token."')";
         try {
             if(DB::insert($query) > 0) {
                 if($privilege == 1) {

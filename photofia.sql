@@ -405,14 +405,6 @@ ALTER TABLE `lens`
   ADD PRIMARY KEY (`lensName`);
 
 --
--- Indexes for table `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`photographerEmail`,`customerEmail`,`orderCode`,`orderDay`),
-  ADD KEY `orders_ibfk_2` (`customerEmail`),
-  ADD KEY `orders_ibfk_3` (`orderDay`);
-
---
 -- Indexes for table `owns`
 --
 ALTER TABLE `owns`

@@ -40,111 +40,44 @@ class user extends Controller
     
     public function follow($photographer,$user)
     {
-
-       $query="insert into follow(photographerEmail,userEmail)values('".$photographer."', '".$user."')";
-       try{
-            if(DB::insert($query) > 0) {
+        $photographer = st($photographer);
+        $user = st($user);
+        $query="insert into follow(photographerEmail,userEmail)values(".$photographer.", ".$user.")";
+        try{
+                if(DB::insert($query) > 0) {
+                    return response()->json([
+                        'status' => 'Inserted Successfully'
+                    ],201);
+                }
+        }
+        catch(QueryException $e){
                 return response()->json([
-                    'status' => 'Inserted Successfully'
-                ],201);
-            }
-       }
-       catch(QueryException $e){
-            return response()->json([
-                'status' => 'Error'
-            ], 404);
-       }
+                    'status' => 'Error'
+                ], 404);
+        }
     }
     public function unfollow($photographer,$user)
     {
-       $query='DELETE  FROM follow WHERE photographerEmail="'.$photographer.'" AND userEmail="'.$user.'"';
-       try{
-        if(DB::delete($query) > 0) {
-            return response()->json([
-                'status' => 'Deleted Successfully'
-            ],201);
+        $photographer = st($photographer);
+        $user = st($user);
+        $query='DELETE  FROM follow WHERE photographerEmail='.$photographer.' AND userEmail='.$user;
+        try{
+            if(DB::delete($query) > 0) {
+                return response()->json([
+                    'status' => 'Deleted Successfully'
+                ],201);
+            }
+            else
+            {
+                return response()->json([
+                    'status' => 'Error'
+                ],404);
+            }
         }
-        else
-        {
-            return response()->json([
-                'status' => 'Error'
-            ],404);
+        catch(QueryException $e){
+                return response()->json([
+                    'status' => 'Error'
+                ], 404);
         }
-   }
-   catch(QueryException $e){
-        return response()->json([
-            'status' => 'Error'
-        ], 404);
-   }
-    }
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

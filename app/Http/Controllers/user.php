@@ -79,17 +79,5 @@ class user extends Controller
                     'status' => 'Error'
                 ], 404);
         }
-<<<<<<< HEAD
-   }
-   catch(QueryException $e){
-        return response()->json([
-            'status' => 'Error'
-        ], 404);
-   }
     }
-
-    
-=======
-    }
->>>>>>> 7fee2e4b13e5850f23d0ed217f8adfde1b110661
 }

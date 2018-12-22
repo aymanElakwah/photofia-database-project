@@ -11,11 +11,11 @@ class EventsController extends Controller
     public function createEvent($email, Request $request)
     {
         $arr = $request->all();
-        $name = $this->st($arr['eventName']);
-        $date = $this->st($arr['date']);
-        $desc = $this->st($arr['description']);
-        $loc = $this->st($arr['eventLocation']);
-        $email = $this->st($email);
+        $name = st($arr['eventName']);
+        $date = st($arr['date']);
+        $desc = st($arr['description']);
+        $loc = st($arr['eventLocation']);
+        $email = st($email);
         $query = "INSERT INTO `events` (`eventName`, `userEmail`, `date`, `description`, `eventLocation`)
                             VALUES ($name, $email, $date, $desc, $loc)";
         try {

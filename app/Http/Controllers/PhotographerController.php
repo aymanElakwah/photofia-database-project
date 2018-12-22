@@ -45,7 +45,7 @@ class PhotographerController extends Controller
             return result(array_merge($this->codeToArray($code)), 201);
         } else {
             $weeklySchedule = $this->getWeeklySchedule($email, $day);
-            if(!$weeklySchedule) {
+            if(is_null($weeklySchedule)) {
                 return serverResponse("Something went wrong! This shouldn't happen", false, 404);
             }
             return result($this->codeToArray($weeklySchedule), 201);

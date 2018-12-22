@@ -30,7 +30,6 @@ class PlacesController extends Controller
         return response()->json($array, 201);
     }
 
-<<<<<<< HEAD
     public function getAllPlaces()
     {
         $query=DB::select("SELECT * FROM place ");        
@@ -85,7 +84,7 @@ class PlacesController extends Controller
             'status' => 'Error'
             ], 404);
         }
-=======
+    }
     // User reviews place
     public function review($userEmail, $placeName, Request $request) {
         if(!checkEmail($userEmail)) {
@@ -125,6 +124,5 @@ class PlacesController extends Controller
         $query = "select comment, rate from reviewplace where userEmail=".$userEmail." and placeName=".$placeName."";
         $result = scalar($query);
         return result($result, 201);
->>>>>>> 7fee2e4b13e5850f23d0ed217f8adfde1b110661
     }
 }

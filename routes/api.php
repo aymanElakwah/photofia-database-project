@@ -32,9 +32,9 @@ Route::get('/appliableEvents/{photographerEmail}', 'EventsController@appliableEv
 Route::get('/applyEvent/{id}/{photographerEmail}', 'EventsController@applyEvent');      //omar
 
 //-----------------------Devices---------------------------
-Route::get('/getAllCameras/', 'DevicesController@getAllCameras');
+Route::get('/getAllCameras', 'DevicesController@getAllCameras');
 Route::get('/getPhotographerCameras/{photographerEmail}', 'DevicesController@getPhotographerCameras');//**DONE**
-Route::get('/getAllLenses/', 'DevicesController@getAllLenses');
+Route::get('/getAllLenses', 'DevicesController@getAllLenses');
 Route::get('/getPhotographerLenses/{photographerEmail}', 'DevicesController@getPhotographerLenses');//**DONE**
 
 //-----------------------Ayman---------------------------
@@ -48,7 +48,7 @@ Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@foll
 Route::post('/images/upload', 'ImagesController@uploadImage');
 // Review image
 Route::post('/images/review/{email}/{path}', 'ImagesController@review');
-Route::put('/images/review/{email}/{path}', 'ImagesController@updateReview');
+Route::post('/images/updateReview/{email}/{path}', 'ImagesController@updateReview');
 Route::get('/images/review/{email}/{path}', 'ImagesController@getReview');
 Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show'); //done
 Route::post('/profile', 'ProfileController@store'); // done
@@ -73,8 +73,8 @@ Route::get('/customer/{id}','customer@getcustomer');
 Route::get('/user/{id}','user@getprevil');
 Route::get('/follow/{photographer}/{user}','user@follow');
 Route::get('/unfollow/{photographer}/{user}','user@unfollow');
-Route::get('/getplaces/', 'PlacesController@getPlaces')->middleware('checkLogging');
-Route::get('/getAllPlaces/', 'PlacesController@getAllPlaces');
+Route::get('/getplaces', 'PlacesController@getPlaces');
+Route::get('/getAllPlaces', 'PlacesController@getAllPlaces');
 
 //----------------------GIFT-----------------***********DONE**************
 Route::get('/getCustomerPoints/{email}', 'giftController@getCustomerPoints');

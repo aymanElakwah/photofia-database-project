@@ -44,6 +44,8 @@ Route::put('/place/review/{userEmail}/{placeName}', 'PlacesController@updateRevi
 Route::get('/place/review/{userEmail}/{placeName}', 'PlacesController@getReview');
 
 Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages'); //done
+//upload image
+Route::post('/images/upload', 'ImagesController@uploadImage');
 // Review image
 Route::post('/images/review/{email}/{path}', 'ImagesController@review');
 Route::put('/images/review/{email}/{path}', 'ImagesController@updateReview');
@@ -51,7 +53,7 @@ Route::get('/images/review/{email}/{path}', 'ImagesController@getReview');
 Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesController@show'); //done
 Route::post('/profile', 'ProfileController@store'); // done
 //Route::post('/profile', 'ProfileController@storeAndroid');
-Route::post('/profile/profilePicture/{photographerEmail}', 'ProfileController@changeProfilePicture');
+Route::post('/profile/profilePicture/{userEmail}', 'ProfileController@changeProfilePicture');
 Route::get('/photographer/reviews/{photographerEmail}', 'PhotographerController@getAllReviews');
 Route::get('/photographer/review/{photographerEmail}/{userEmail}', 'PhotographerController@getReview'); // done
 Route::post('/photographer/reviewPost/{photographerEmail}/{userEmail}', 'PhotographerController@review');

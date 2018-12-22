@@ -55,12 +55,19 @@ function getWeekDay($date) {
 
 }
 
-function uploadFile(Request $request, $filename) {
-    $file = $request->file('image');
-    $filename = $filename.".jpg";
-    if ($file) {
-        Storage::disk('local')->put($filename, File::get($file));
+function uploadFile($controller, $request, $filename) {
+    $filename = addslashes($filename);
+    $controller->validate($request, [
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $name = $filename;
+        $destinationPath = public_path('/images');
+        $image->move($destinationPath, $name);
+        return true;
     }
+    return false;
 }
 
 function getTime() {

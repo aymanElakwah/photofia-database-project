@@ -84,16 +84,15 @@ class ProfileController extends Controller
         
     }
 
-    public function changeProfilePicture($photographerEmail, Request $request) {
-        // $this->validate($request, [
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $name = $photographerEmail.'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/images');
-            $image->move($destinationPath, $name);
-            return serverResponse("uploaded successfully", true);
+    public function changeProfilePicture($userEmail, Request $request) {
+        if(uploadFile($this, $request, $userEmail)) {
+            $redirect = $userEmail;
+            $userEmail = st($userEmail);
+            $query = "update users set profilePicture=".$userEmail." where userEmail=".$userEmail;
+            DB::update($query);
+            return redirect('http://localhost:4200/profile/'.$redirect);
+            // return serverResponse("uploaded successfully", true);
         }
+        return serverResponse("Image is not uploaded", false);
     }   
 }

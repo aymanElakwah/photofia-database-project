@@ -98,4 +98,25 @@ class ImagesController extends Controller
         $images = DB::select($query);
         return response()->json($images, 201);
     }
+
+    public function uploadImage(Request $request) {
+        $photographerEmail = $request->photographerEmail;
+        if(!checkEmail($photographerEmail)) {
+            return serverResponse("please enter a valid email address", false);
+        }
+        $photographerEmail = st($photographerEmail);
+        $type = st($request->type);
+        $description = st($request->description);
+        $imageLocation = st($request->imageLocation);
+        $path = md5($photographerEmail.getTime());
+        if(uploadFile($this, $request, $path)) {
+            $query = "INSERT INTO image(path, type, description, photographerEmail, imageLocation) VALUES('".$path."', ".$type.", ".$description.", ".$photographerEmail.", ".$imageLocation.")";
+            if(insert($query) > 0) {
+                return serverResponse("Image inserted successfully", true);
+            }
+            return serverResponse("Something went wrong", false);
+        } else {
+            return serverResponse("Image is not uploaded", false);
+        }
+    }
 }

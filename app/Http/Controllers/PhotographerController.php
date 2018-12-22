@@ -101,10 +101,10 @@ class PhotographerController extends Controller
 
     public function show($email)
     {
-        $query=DB::select("select avgPrice,bio,qualifications,rate,birthDate,gender,profilePicture,username,userPhone,userAddress 
+        $query="select avgPrice,bio,qualifications,rate,birthDate,gender,profilePicture,username,userPhone,userAddress 
         from users,photographer 
         Where userEmail=photographerEmail 
-        AND photographerEmail=".st($email));
+        AND photographerEmail=".st($email);
         $result = scalar($query);
         if($result) {
             return result($result, 201);

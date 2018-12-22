@@ -119,4 +119,10 @@ class ImagesController extends Controller
             return serverResponse("Image is not uploaded", false);
         }
     }
+    // get all images in a certain location
+    public function getAllIamges($location)
+    {
+        return DB::select("SELECT * FROM image  WHERE imageLocation='$location'");
+    }
+    
 }

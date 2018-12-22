@@ -44,7 +44,7 @@ class NotificationsController extends Controller
     }
 
     public function customersFollows($photographerEmail){
-        $data = DB::select("SELECT userEmail, userName 
+        $data = DB::select("SELECT userEmail, username 
                             FROM follow NATURAL JOIN users 
                             WHERE photographerEmail = '$photographerEmail'");
         return response()->json($data, 201);

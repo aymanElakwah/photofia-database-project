@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //-----------------------Notifications---------------------------
 Route::get('/eventsApplications/{userEmail}', 'NotificationsController@eventsApplications');//**DONE**
 Route::get('/customersReserves/{photographerEmail}', 'NotificationsController@customersReserves');//**DONE**
-Route::get('/customersFollows/{photographerEmail}', 'NotificationsController@customersFollows');
+Route::get('/customersFollows/{photographerEmail}', 'NotificationsController@customersFollows');// NOW
 
 //-----------------------Update User---------------------------
 Route::post('/updateUser', 'UpdatingController@updateUser');//**DONE**
@@ -74,12 +74,12 @@ Route::get('/user/{id}','user@getprevil');
 Route::get('/follow/{photographer}/{user}','user@follow');
 Route::get('/unfollow/{photographer}/{user}','user@unfollow');
 Route::get('/getplaces/', 'PlacesController@getPlaces')->middleware('checkLogging');
-
+Route::get('/getAllPlaces/', 'PlacesController@getAllPlaces');
 
 //----------------------GIFT-----------------***********DONE**************
 Route::get('/getCustomerPoints/{email}', 'giftController@getCustomerPoints');
 Route::get('/getAllGifts/','giftController@getAllGifts');
-Route::post('/insertGift/','giftController@insertGift');    //except this
+Route::post('/addGift/','giftController@insertGift');    //except this
 Route::post('/redeemGift/{email}','giftController@redeemGift');
 
 //----------------------Statistics-----------------
@@ -95,3 +95,12 @@ Route::get('/statistics/points', 'StatisticsController@points');
 
 
 Route::get('/getCustomerPoints/{email}','customer@getCustomerPoints');
+
+
+///-----------------------Omar----------------------
+Route::get('/getAllIamges/{location}','ImagesController@getAllIamges');
+Route::post('/addPlaces/','PlacesController@addPlaces');
+Route::get('/deletePlace/{placeName}','PlacesController@deletePlace');
+Route::get('/deleteGift/{placeName}','giftController@deleteGift');
+
+

@@ -80,4 +80,19 @@ class user extends Controller
                 ], 404);
         }
     }
+
+    public function login(Request $request) {
+        $userEmail = $request->userEmail;
+        if(!checkEmail($userEmail)) {
+            return NULL;
+        }
+        $userEmail = st($userEmail);
+        $password = st($request->password);
+        $query = "select token from users where userEmail=".$userEmail." and password=".$password;
+        $token = scalar($query);
+        if($token) {
+            $token = "\"".$token->token."\"";
+        }
+        return $token;
+    }
 }

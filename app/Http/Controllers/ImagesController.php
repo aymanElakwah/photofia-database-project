@@ -50,6 +50,14 @@ class ImagesController extends Controller
         $result = scalar($query);
         return result($result, 201);
     }
+
+    public function getAllReviews($path) {
+        $path = st($path);
+        $query = "select username, reviewimage.* from
+        reviewimage natural join users
+        where path=".$path;
+        return result(DB::select($query), 201);
+    }
     // User is in photographer's profile, show the user this photographer's images and the (user's rate) besides the average rate
     public function show($photographerEmail, $userEmail, $orderby, $page)
     {
@@ -99,8 +107,7 @@ class ImagesController extends Controller
         return response()->json($images, 201);
     }
 
-    public function uploadImage(Request $request) {
-        $photographerEmail = $request->photographerEmail;
+    public function uploadImage($photographerEmail, Request $request) {
         if(!checkEmail($photographerEmail)) {
             return serverResponse("please enter a valid email address", false);
         }
@@ -112,7 +119,8 @@ class ImagesController extends Controller
         if(uploadFile($this, $request, $path)) {
             $query = "INSERT INTO image(path, type, description, photographerEmail, imageLocation) VALUES('".$path."', ".$type.", ".$description.", ".$photographerEmail.", ".$imageLocation.")";
             if(insert($query) > 0) {
-                return serverResponse("Image inserted successfully", true);
+                return redirect('http://localhost:4200/profile/');
+                //return serverResponse("Image inserted successfully", true);
             }
             return serverResponse("Something went wrong", false);
         } else {

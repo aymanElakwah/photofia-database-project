@@ -38,14 +38,17 @@ Route::get('/getAllLenses', 'DevicesController@getAllLenses');
 Route::get('/getPhotographerLenses/{photographerEmail}', 'DevicesController@getPhotographerLenses');//**DONE**
 
 //-----------------------Ayman---------------------------
+//
+Route::post('/login', 'user@login');
 // Review place
 Route::post('/place/review/{userEmail}/{placeName}/', 'PlacesController@review');
 Route::put('/place/review/{userEmail}/{placeName}', 'PlacesController@updateReview');
 Route::get('/place/review/{userEmail}/{placeName}', 'PlacesController@getReview');
 
+Route::get('/image/reviews/{path}', 'ImagesController@getAllReviews');
 Route::get('/images/follow/{userEmail}/{orderby}/{page}', 'ImagesController@followedImages'); //done
 //upload image
-Route::post('/images/upload', 'ImagesController@uploadImage');
+Route::post('/images/upload/{photographerEmail}', 'ImagesController@uploadImage');
 // Review image
 Route::post('/images/review/{email}/{path}', 'ImagesController@review');
 Route::post('/images/updateReview/{email}/{path}', 'ImagesController@updateReview');

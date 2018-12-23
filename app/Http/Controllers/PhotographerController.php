@@ -99,6 +99,27 @@ class PhotographerController extends Controller
         }
     }
 
+        public function setSchedule($photographerEmail, $day, Request $request) {
+            if(!checkEmail($photographerEmail)) {
+                return error();
+            }
+            $photographerEmail = st($photographerEmail);
+            $day = intval($day);
+            $order = $request->all();
+            $orderCode = 0;
+            foreach($order as $n) {
+                if(intval($n) != -1) {
+                    $orderCode += pow(2, 23 - $n);
+                }
+            }
+            $query = "update schedule set code=".$orderCode." where photographerEmail=".$photographerEmail." and day = ".$day;
+            if(DB::update($query) > 0) {
+                return serverResponse("Updated successfully", true);
+            } else {
+                //return serverResponse("Something went wrong", false);
+            }
+    }
+
     public function show($email)
     {
         $query="select avgPrice,bio,qualifications,rate,birthDate,gender,profilePicture,username,userPhone,userAddress 

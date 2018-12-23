@@ -57,6 +57,7 @@ Route::get('/images/{photographerEmail}/{userEmail}/{orderby}/{page}', 'ImagesCo
 Route::post('/profile', 'ProfileController@store'); // done
 //Route::post('/profile', 'ProfileController@storeAndroid');
 Route::post('/profile/profilePicture/{userEmail}', 'ProfileController@changeProfilePicture');
+Route::post('/photographer/schedule/{photographerEmail}/{day}', 'PhotographerController@setSchedule');
 Route::get('/photographer/reviews/{photographerEmail}', 'PhotographerController@getAllReviews');
 Route::get('/photographer/review/{photographerEmail}/{userEmail}', 'PhotographerController@getReview'); // done
 Route::post('/photographer/reviewPost/{photographerEmail}/{userEmail}', 'PhotographerController@review');

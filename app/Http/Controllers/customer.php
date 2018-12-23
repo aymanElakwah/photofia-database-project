@@ -15,7 +15,7 @@ class customer extends Controller
 
     public function getcustomer($email)
     {
-        $query="select points,birthDate,gender,profilePicture,username,userPhone,userAddress 
+        $query="select password, points,birthDate,gender,profilePicture,username,userPhone,userAddress 
         from users,customer
          Where userEmail=customerEmail
           AND customerEmail=".st($email);

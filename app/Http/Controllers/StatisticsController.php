@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 class StatisticsController extends Controller
 {
     public function eventsPlaces(){
-        return DB::select("SELECT placeName, count(eventLocation) AS eventsNumber
+        return result(DB::select("SELECT placeName, count(eventLocation) AS eventsNumber
                             FROM events RIGHT OUTER JOIN place ON placeName = eventLocation
                             GROUP BY placeName
                             ORDER BY eventsNumber DESC
-                            LIMIT 5");
+                            LIMIT 5"), 201);
     }
 
     public function imagesPlaces(){
